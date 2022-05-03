@@ -1,9 +1,12 @@
 package cinema.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Getter
 public class CinemaRoom {
@@ -11,6 +14,9 @@ public class CinemaRoom {
     private final int totalColumns;
 
     private final List<Seat> availableSeats;
+
+    @JsonIgnore
+    private final ConcurrentHashMap<UUID, Seat> tickets = new ConcurrentHashMap<>();
 
     public CinemaRoom(int totalRows, int totalColumns) {
         this.totalRows = totalRows;
