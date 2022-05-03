@@ -1,11 +1,14 @@
 package cinema.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
-@Getter
-@AllArgsConstructor
+@Data
 public class Seat {
     private final int row;
     private final int column;
+    private final int price;
+
+    @JsonIgnore
+    private boolean available = true;
 }

@@ -19,8 +19,9 @@ public class CinemaRoom {
         final List<Seat> seats = new ArrayList<>();
 
         for (int i = 1; i <= totalRows; i++) {
+            int price = i <= 4 ? 10 : 8;
             for (int j = 1; j <= totalColumns; j++) {
-                seats.add(new Seat(i, j));
+                seats.add(new Seat(i, j, price));
             }
         }
         this.availableSeats = seats;
