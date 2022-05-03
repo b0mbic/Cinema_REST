@@ -5,6 +5,7 @@ import cinema.domain.Ticket;
 import cinema.model.ReturnTicketRequest;
 import cinema.model.ReturnedTicketDto;
 import cinema.model.SeatRequestDto;
+import cinema.model.StatsResponse;
 import cinema.service.CinemaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,11 @@ public class CinemaController {
     @PostMapping("/return")
     public ResponseEntity<ReturnedTicketDto> returnTicket(@RequestBody ReturnTicketRequest returnRequest) {
         return service.returnTicket(returnRequest);
+    }
+
+    @PostMapping("/stats")
+    public ResponseEntity<StatsResponse> printStats(@RequestParam(required = false) String password) {
+        return service.printStats(password);
     }
 
 }

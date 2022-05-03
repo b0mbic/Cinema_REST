@@ -7,6 +7,7 @@ import cinema.exception.ApiException;
 import cinema.model.ReturnTicketRequest;
 import cinema.model.ReturnedTicketDto;
 import cinema.model.SeatRequestDto;
+import cinema.model.StatsResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -61,6 +62,30 @@ public class CinemaService {
         ReturnedTicketDto returnedTicketDto = new ReturnedTicketDto(returnedSeat);
 
         return new ResponseEntity<>(returnedTicketDto, HttpStatus.OK);
+    }
+
+    public ResponseEntity<StatsResponse> printStats(String password) {
+        if (!"super_secret".equals(password)) {
+            throw new ApiException("The password is wrong!", HttpStatus.UNAUTHORIZED);
+        }
+
+        StatsResponse statsResponse;
+
+        synchronized (tickets) {
+            int currentIncome = tickets.values()
+                    .stream()
+                    .map(Seat::getPrice)
+                    .reduce(0, Integer::sum);
+
+            int numberOfPurchasedTickets = tickets.size();
+
+            int availableSeats = cinemaRoom.getAvailableSeats().size() - numberOfPurchasedTickets;
+
+            statsResponse = new StatsResponse(
+                    currentIncome, availableSeats, numberOfPurchasedTickets);
+        }
+
+        return new ResponseEntity<>(statsResponse, HttpStatus.OK);
     }
 
 

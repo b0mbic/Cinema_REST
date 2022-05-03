@@ -1,6 +1,5 @@
 package cinema.exception;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,6 +11,6 @@ public class ApiExceptionHandler {
     public ResponseEntity<Object> handleApiException(ApiException e) {
         ExceptionResponseDto exceptionResponseDto = new ExceptionResponseDto(e.getMessage());
 
-        return new ResponseEntity<>(exceptionResponseDto, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(exceptionResponseDto, e.getStatus());
     }
 }
